@@ -11,15 +11,15 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.registry.RegistryTracker;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GeneratorOptions;
 import net.minecraft.world.level.LevelInfo;
@@ -34,6 +34,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
@@ -53,8 +54,8 @@ public abstract class MinecraftClientMixin {
     private @NotNull
     final InGameTimer timer = InGameTimer.INSTANCE;
 
-    @Inject(at = @At("HEAD"), method = "method_29607(Ljava/lang/String;Lnet/minecraft/world/level/LevelInfo;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Lnet/minecraft/world/gen/GeneratorOptions;)V")
-    public void onCreate(String worldName, LevelInfo levelInfo, RegistryTracker.Modifiable registryTracker, GeneratorOptions generatorOptions, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "createWorld")
+    public void onCreate(String worldName, LevelInfo levelInfo, DynamicRegistryManager.Impl registryTracker, GeneratorOptions generatorOptions, CallbackInfo ci) {
         if (timer.getStatus() != TimerStatus.NONE) {
             timer.end();
         }
@@ -81,12 +82,12 @@ public abstract class MinecraftClientMixin {
         }
 
         //Enter Nether
-        if (timer.getCategory() == RunCategory.ENTER_NETHER && world.getDimensionRegistryKey() == DimensionType.THE_NETHER_REGISTRY_KEY) {
+        if (timer.getCategory() == RunCategory.ENTER_NETHER && Objects.equals(world.getRegistryKey().getValue().toString(), DimensionType.THE_NETHER_REGISTRY_KEY.toString())) {
             timer.complete();
         }
 
         //Enter End
-        if (timer.getCategory() == RunCategory.ENTER_END && world.getDimensionRegistryKey() == DimensionType.THE_END_REGISTRY_KEY) {
+        if (timer.getCategory() == RunCategory.ENTER_END && Objects.equals(world.getRegistryKey().getValue().toString(), DimensionType.THE_END_REGISTRY_KEY.toString())) {
             timer.complete();
         }
     }
@@ -148,15 +149,14 @@ public abstract class MinecraftClientMixin {
                         break;
                 }
                 if ((!this.isPaused() || this.currentScreen instanceof GameMenuScreen) && !(this.currentScreen instanceof ChatScreen)) {
-                    drawOutLine(this.textRenderer, matrixStack, x, y+10, rta, Formatting.AQUA);
-                    drawOutLine(this.textRenderer, matrixStack, x, y, igt, Formatting.YELLOW);
-                    //drawOutLine(this.textRenderer, matrixStack, x, y-10, new LiteralText(timer.getStatus().name()), Formatting.RED);
+                    drawOutLine(this.textRenderer, matrixStack, x, y+10, rta, Formatting.AQUA.getColorValue());
+                    drawOutLine(this.textRenderer, matrixStack, x, y, igt, Formatting.YELLOW.getColorValue());
                 }
             }
         }
     }
 
-    private static void drawOutLine(TextRenderer textRenderer, MatrixStack matrixStack, int x, int y, MutableText text, Formatting color) {
+    private static void drawOutLine(TextRenderer textRenderer, MatrixStack matrixStack, int x, int y, MutableText text, Integer color) {
         textRenderer.draw(matrixStack, text, (float)x + 1, (float)y + 1, 0);
         textRenderer.draw(matrixStack, text, (float)x + 1, (float)y, 0);
         textRenderer.draw(matrixStack, text, (float)x + 1, (float)y - 1, 0);
@@ -165,6 +165,6 @@ public abstract class MinecraftClientMixin {
         textRenderer.draw(matrixStack, text, (float)x - 1, (float)y + 1, 0);
         textRenderer.draw(matrixStack, text, (float)x - 1, (float)y, 0);
         textRenderer.draw(matrixStack, text, (float)x - 1, (float)y - 1, 0);
-        textRenderer.draw(matrixStack, text.formatted(color), (float)x, (float)y, 16777215);
+        textRenderer.draw(matrixStack, text, (float)x, (float)y, color);
     }
 }

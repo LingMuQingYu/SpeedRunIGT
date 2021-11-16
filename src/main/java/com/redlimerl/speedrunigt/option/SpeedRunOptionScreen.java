@@ -3,7 +3,7 @@ package com.redlimerl.speedrunigt.option;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
@@ -36,8 +36,8 @@ public class SpeedRunOptionScreen extends Screen {
         super.init();
 
         int buttonCount = 0;
-        for (Function<Screen, AbstractButtonWidget> function : SpeedRunOptions.buttons.subList(page*12, Math.min(SpeedRunOptions.buttons.size(), (page + 1) * 12))) {
-            AbstractButtonWidget button = function.apply(this);
+        for (Function<Screen, PressableWidget> function : SpeedRunOptions.buttons.subList(page*12, Math.min(SpeedRunOptions.buttons.size(), (page + 1) * 12))) {
+            PressableWidget button = function.apply(this);
             tooltips.put(button, SpeedRunOptions.tooltips.get(function));
 
             button.x = width / 2 - 155 + buttonCount % 2 * 160;
@@ -76,7 +76,7 @@ public class SpeedRunOptionScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
-        this.drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, 16777215);
+        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 15, 16777215);
         super.render(matrices, mouseX, mouseY, delta);
 
         Optional<Element> e = this.hoveredElement(mouseX, mouseY);
