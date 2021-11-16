@@ -3,8 +3,8 @@ package com.redlimerl.speedrunigt.option;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -36,8 +36,8 @@ public class SpeedRunOptionScreen extends Screen {
         super.init();
 
         int buttonCount = 0;
-        for (Function<Screen, PressableWidget> function : SpeedRunOptions.buttons.subList(page*12, Math.min(SpeedRunOptions.buttons.size(), (page + 1) * 12))) {
-            PressableWidget button = function.apply(this);
+        for (Function<Screen, ClickableWidget> function : SpeedRunOptions.buttons.subList(page*12, Math.min(SpeedRunOptions.buttons.size(), (page + 1) * 12))) {
+            ClickableWidget button = function.apply(this);
             tooltips.put(button, SpeedRunOptions.tooltips.get(function));
 
             button.x = width / 2 - 155 + buttonCount % 2 * 160;

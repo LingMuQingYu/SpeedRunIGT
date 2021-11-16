@@ -4,7 +4,7 @@ import com.redlimerl.speedrunigt.SpeedRunIGT;
 import com.redlimerl.speedrunigt.timer.RunCategory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.FileUtils;
@@ -68,9 +68,9 @@ public class SpeedRunOptions {
         }
     }
 
-    static ArrayList<Function<Screen, PressableWidget>> buttons = new ArrayList<>();
-    static HashMap<Function<Screen, PressableWidget>, List<Text>> tooltips = new HashMap<>();
-    public static void addOptionButton(Function<Screen, PressableWidget> consumer, Text... texts) {
+    static ArrayList<Function<Screen, ClickableWidget>> buttons = new ArrayList<>();
+    static HashMap<Function<Screen, ClickableWidget>, List<Text>> tooltips = new HashMap<>();
+    public static void addOptionButton(Function<Screen, ClickableWidget> consumer, Text... texts) {
         buttons.add(consumer);
         tooltips.put(consumer, Arrays.asList(texts));
     }

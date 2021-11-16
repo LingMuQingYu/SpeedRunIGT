@@ -10,9 +10,9 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CheckboxWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
@@ -75,7 +75,7 @@ public class SpeedRunCategoryScreen extends Screen {
         @Environment(EnvType.CLIENT)
         public class CategoryEntry extends ElementListWidget.Entry<CategoryEntry> {
 
-            private final ArrayList<PressableWidget> children = new ArrayList<>();
+            private final ArrayList<ClickableWidget> children = new ArrayList<>();
             private final CategoryCheckBoxWidget checkBox;
             private final ButtonWidget urlButton;
 
