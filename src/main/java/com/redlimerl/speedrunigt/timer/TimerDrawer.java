@@ -156,7 +156,7 @@ public class TimerDrawer {
                 bgColor);
         drawOutLine(textRenderer, matrixStack, scaleX + igtWidthGap, scaleY + (this.reversed ? 10 : 0), igt, Formatting.YELLOW.getColorValue());
         drawOutLine(textRenderer, matrixStack, scaleX + rtaWidthGap, scaleY + (this.reversed ? 0 : 10), rta, Formatting.AQUA.getColorValue());
-        drawOutLine(textRenderer, matrixStack, scaleX + rtaWidthGap, scaleY + 20, new LiteralText(InGameTimer.getInstance().getStatus().name()), Formatting.RED.getColorValue());
+        //drawOutLine(textRenderer, matrixStack, scaleX + rtaWidthGap, scaleY + 20, new LiteralText(InGameTimer.getInstance().getStatus().name()), Formatting.RED.getColorValue());
         RenderSystem.popMatrix();
     }
 
