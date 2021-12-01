@@ -107,8 +107,8 @@ public class InGameTimer {
 
         new Thread(() -> {
             try {
-                FileUtils.writeStringToFile(new File(SpeedRunIGT.WORLDS_PATH.resolve(currentWorldName).toFile(), "igt_log.txt"), timer.firstInput + "\n" + timer.pauseLog, Charsets.UTF_8);
-                FileUtils.writeStringToFile(new File(SpeedRunIGT.WORLDS_PATH.resolve(currentWorldName).toFile(), "freeze_log.txt"), timer.freezeLog.toString(), Charsets.UTF_8);
+                FileUtils.writeStringToFile(new File(SpeedRunIGT.WORLDS_PATH.resolve(currentWorldName).toFile(), "igt_log.txt"), timer.firstInput + "\n" + timer.pauseLog, StandardCharsets.UTF_8);
+                FileUtils.writeStringToFile(new File(SpeedRunIGT.WORLDS_PATH.resolve(currentWorldName).toFile(), "freeze_log.txt"), timer.freezeLog.toString(), StandardCharsets.UTF_8);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -131,7 +131,7 @@ public class InGameTimer {
         String data = SpeedRunIGT.GSON.toJson(INSTANCE);
         String timerData = Crypto.encrypt(data, "faRQOs2GK5j863ePvCBe5SiZLypm4UOM");
         try {
-            FileUtils.writeStringToFile(new File(SpeedRunIGT.TIMER_PATH.toFile(), currentWorldName+".igt"), timerData, Charsets.UTF_8);
+            FileUtils.writeStringToFile(new File(SpeedRunIGT.TIMER_PATH.toFile(), currentWorldName+".igt"), timerData, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
