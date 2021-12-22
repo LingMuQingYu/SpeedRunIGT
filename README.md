@@ -8,6 +8,7 @@ Simply, the **Timer** Mod for Minecraft Speedrun
 - Auto Start & Pause the timer
   - Support Many Categories!
 - Free Timer Position Adjustment 
+- Custom font in timer
 - For third party mods API ([API Document](https://github.com/RedLime/SpeedRunIGT/wiki/SpeedRunIGT-API-Document))
 
 ## Downloads
