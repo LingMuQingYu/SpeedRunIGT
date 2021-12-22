@@ -47,17 +47,17 @@ public class SpeedRunOptionScreen extends Screen {
         }
 
         addButton(new ButtonWidget(width / 2 - 100, height / 6 + 168, 200, 20, ScreenTexts.DONE, (ButtonWidget button) -> {
-            if (minecraft != null) minecraft.openScreen(parent);
+            if (client != null) client.openScreen(parent);
         }));
 
         if (SpeedRunOptions.buttons.size() > 12) {
             ButtonWidget nextButton = addButton(new ButtonWidget(width / 2 - 155 + 260, height / 6 + 144, 50, 20,">>>",
                     (ButtonWidget button) -> {
-                        if (minecraft != null) minecraft.openScreen(new SpeedRunOptionScreen(parent, page + 1));
+                        if (client != null) client.openScreen(new SpeedRunOptionScreen(parent, page + 1));
                     }));
             ButtonWidget prevButton = addButton(new ButtonWidget(width / 2 - 155, height / 6 + 144, 50, 20, "<<<",
                     (ButtonWidget button) -> {
-                        if (minecraft != null) minecraft.openScreen(new SpeedRunOptionScreen(parent, page - 1));
+                        if (client != null) client.openScreen(new SpeedRunOptionScreen(parent, page - 1));
                     }));
             if ((SpeedRunOptions.buttons.size() - 1) / 12 == page) {
                 nextButton.active = false;
@@ -70,13 +70,13 @@ public class SpeedRunOptionScreen extends Screen {
 
     @Override
     public void onClose() {
-        if (this.minecraft != null) this.minecraft.openScreen(parent);
+        if (this.client != null) this.client.openScreen(parent);
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
         this.renderBackground();
-        this.drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 15, 16777215);
+        this.drawCenteredString(this.textRenderer, this.title.asFormattedString(), this.width / 2, 15, 16777215);
         super.render(mouseX, mouseY, delta);
 
         Optional<Element> e = this.hoveredElement(mouseX, mouseY);

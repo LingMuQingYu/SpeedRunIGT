@@ -38,23 +38,23 @@ public class SpeedRunCategoryScreen extends Screen {
 
     @Override
     protected void init() {
-        assert minecraft != null;
-        addButton(new ButtonWidget(width / 2 - 100, height - 35, 200, 20, ScreenTexts.CANCEL, button -> minecraft.openScreen(parent)));
+        assert client != null;
+        addButton(new ButtonWidget(width / 2 - 100, height - 35, 200, 20, ScreenTexts.CANCEL, button -> client.openScreen(parent)));
 
-        this.listWidget = new CategorySelectionListWidget(minecraft);
+        this.listWidget = new CategorySelectionListWidget(client);
         children.add(listWidget);
     }
 
     @Override
     public void onClose() {
-        if (this.minecraft != null) this.minecraft.openScreen(parent);
+        if (this.client != null) this.client.openScreen(parent);
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
         this.listWidget.render(mouseX, mouseY, delta);
-        this.drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 16, 16777215);
-        this.drawCenteredString(this.font, "(" + I18n.translate("speedrunigt.option.timer_category.warning") + ")", this.width / 2, this.height - 46, 8421504);
+        this.drawCenteredString(this.textRenderer, this.title.asFormattedString(), this.width / 2, 16, 16777215);
+        this.drawCenteredString(this.textRenderer, "(" + I18n.translate("speedrunigt.option.timer_category.warning") + ")", this.width / 2, this.height - 46, 8421504);
         super.render(mouseX, mouseY, delta);
     }
 
@@ -67,8 +67,8 @@ public class SpeedRunCategoryScreen extends Screen {
         }
 
         @Override
-        protected int getScrollbarPosition() {
-            return super.getScrollbarPosition() + 30;
+        protected int getScrollbarPositionX() {
+            return super.getScrollbarPositionX() + 30;
         }
 
         @Environment(EnvType.CLIENT)
@@ -130,7 +130,7 @@ public class SpeedRunCategoryScreen extends Screen {
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
                     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-                    blit(this.x, this.y, this.isFocused() ? 20.0F : 0.0F, this.isChecked() ? 20.0F : 0.0F, 20, this.height, 32, 64);
+                    drawTexture(this.x, this.y, this.isFocused() ? 20.0F : 0.0F, this.isChecked() ? 20.0F : 0.0F, 20, this.height, 32, 64);
                     this.renderBg(minecraftClient, mouseX, mouseY);
                     drawString(textRenderer, this.getMessage(), this.x + 24, this.y + (this.height - 8) / 2, 14737632 | MathHelper.ceil(this.alpha * 255.0F) << 24);
                 }

@@ -23,8 +23,8 @@ public class OptionsScreenMixin extends Screen {
     private void onInit(CallbackInfo ci) {
 
         this.addButton(new TexturedButtonWidget(this.width / 2 - 180, this.height / 6 - 12, 20, 20, 0, 0, 20, SpeedRunIGT.BUTTON_ICON_TEXTURE, 32, 64, (buttonWidget) -> {
-            if (this.minecraft != null) {
-                this.minecraft.openScreen(new SpeedRunOptionScreen(this));
+            if (this.client != null) {
+                this.client.openScreen(new SpeedRunOptionScreen(this));
             }
         }, I18n.translate("ghostrunner.title")));
     }

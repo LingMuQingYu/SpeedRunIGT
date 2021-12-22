@@ -51,12 +51,12 @@ public class TimerCustomizeScreen extends Screen {
 
     @Override
     protected void init() {
-        if (minecraft != null) {
-            if (!minecraft.fontManager.textRenderers.containsKey(drawer.getTimerFont())) {
+        if (client != null) {
+            if (!client.fontManager.textRenderers.containsKey(drawer.getTimerFont())) {
                 availableFonts.add(drawer.getTimerFont());
             }
 
-            availableFonts.addAll(minecraft.fontManager.textRenderers.keySet());
+            availableFonts.addAll(client.fontManager.textRenderers.keySet());
         }
 
         initNormal();
@@ -196,7 +196,7 @@ public class TimerCustomizeScreen extends Screen {
         }));
 
         addButton(new ButtonWidget(width / 2 + 31, height / 2 + 62, 58, 20, ScreenTexts.CANCEL, (ButtonWidget button) -> {
-            if (minecraft != null) minecraft.openScreen(parent);
+            if (client != null) client.openScreen(parent);
         }));
 
 
@@ -234,17 +234,17 @@ public class TimerCustomizeScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (modifiers == 2 && keyCode >= 262 && keyCode <= 265 && minecraft != null && !drawer.isLocked()) {
+        if (modifiers == 2 && keyCode >= 262 && keyCode <= 265 && client != null && !drawer.isLocked()) {
             int moveX = keyCode == 262 ? 1 : keyCode == 263 ? -1 : 0;
             int moveY = keyCode == 265 ? -1 : keyCode == 264 ? 1 : 0;
             if (!igtButton.active) {
-                drawer.setIGT_XPos(MathHelper.clamp(drawer.getIGT_XPos() + moveX * drawer.getIGTScale() / minecraft.getWindow().getScaledWidth(), 0, 1));
-                drawer.setIGT_YPos(MathHelper.clamp(drawer.getIGT_YPos() + moveY * drawer.getIGTScale() / minecraft.getWindow().getScaledHeight(), 0, 1));
+                drawer.setIGT_XPos(MathHelper.clamp(drawer.getIGT_XPos() + moveX * drawer.getIGTScale() / client.getWindow().getScaledWidth(), 0, 1));
+                drawer.setIGT_YPos(MathHelper.clamp(drawer.getIGT_YPos() + moveY * drawer.getIGTScale() / client.getWindow().getScaledHeight(), 0, 1));
                 changed = true;
             }
             if (!rtaButton.active) {
-                drawer.setRTA_XPos(MathHelper.clamp(drawer.getRTA_XPos() + moveX * drawer.getRTAScale() / minecraft.getWindow().getScaledWidth(), 0, 1));
-                drawer.setRTA_YPos(MathHelper.clamp(drawer.getRTA_YPos() + moveY * drawer.getRTAScale() / minecraft.getWindow().getScaledHeight(), 0, 1));
+                drawer.setRTA_XPos(MathHelper.clamp(drawer.getRTA_XPos() + moveX * drawer.getRTAScale() / client.getWindow().getScaledWidth(), 0, 1));
+                drawer.setRTA_YPos(MathHelper.clamp(drawer.getRTA_YPos() + moveY * drawer.getRTAScale() / client.getWindow().getScaledHeight(), 0, 1));
                 changed = true;
             }
             setFocused(null);
@@ -261,17 +261,17 @@ public class TimerCustomizeScreen extends Screen {
         drawer.draw();
 
 
-        drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 15, 16777215);
+        drawCenteredString(this.textRenderer, this.title.asFormattedString(), this.width / 2, 15, 16777215);
 
         if (!hide) {
             if (!igtButton.active || !rtaButton.active) {
                 if (drawer.isLocked()) {
-                    drawCenteredString(this.font,
+                    drawCenteredString(this.textRenderer,
                             I18n.translate("speedrunigt.option.timer_position.description.lock"), this.width / 2, this.height / 2 - 80, 16777215);
                 } else {
-                    drawCenteredString(this.font,
+                    drawCenteredString(this.textRenderer,
                             I18n.translate("speedrunigt.option.timer_position.description"), this.width / 2, this.height / 2 - 80, 16777215);
-                    drawCenteredString(this.font,
+                    drawCenteredString(this.textRenderer,
                             I18n.translate("speedrunigt.option.timer_position.description.move"), this.width / 2, this.height / 2 - 69, 16777215);
                 }
             }
@@ -282,10 +282,10 @@ public class TimerCustomizeScreen extends Screen {
                     if (c + i < availableFonts.size()) {
                         Identifier fontIdentifier = availableFonts.get(c + i);
                         LiteralText text = new LiteralText(fontIdentifier.getPath());
-                        TextRenderer targetFont = this.font;
+                        TextRenderer targetFont = this.textRenderer;
 
-                        if (minecraft != null && minecraft.fontManager.textRenderers.containsKey(fontIdentifier)) {
-                            targetFont = minecraft.fontManager.textRenderers.get(fontIdentifier);
+                        if (client != null && client.fontManager.textRenderers.containsKey(fontIdentifier)) {
+                            targetFont = client.fontManager.textRenderers.get(fontIdentifier);
                         } else {
                             text.append(new LiteralText(" (Unavailable)")).formatted(Formatting.RED);
                         }
@@ -304,8 +304,8 @@ public class TimerCustomizeScreen extends Screen {
 
     @Override
     public void onClose() {
-        assert minecraft != null;
-        minecraft.openScreen(parent);
+        assert client != null;
+        client.openScreen(parent);
     }
 
 
